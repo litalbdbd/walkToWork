@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1 class="headline">{{ city }}</h1>
+
+    <a href="{% url 'core:cities_page' city.region %}">
+        <button class="button button2">Back</button>
+    </a>
+
+
+
+    <div class="p-and-employee-page-pic">
+        <p class="employee-page-p">{{ city.data }}</p>
+
+
+        <img class="employee-page-pic" src="{{ city.img.url }}" alt="">
+
+    </div>
+    <div class="chart">
+       <button id="full-chart-btn" class="button button2">Full Chart</button>
+        <div id="chart" style="width: 300px;height: 300px;">
+            <canvas id="myChart" width="200" height="200"></canvas>
+        </div>
+
+    </div>
+
+    <table>
+
+
+        {% for employee in f %}
+            <tr>
+                <td>{{ employee.job }}</td>
+                <td>{{ employee.user }}</td>
+                <td>
+                    <img class="icon" src="https://pluspng.com/img-png/linkedin-icon-png--1600.png" alt="">
+                    <img class="icon" src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/phone-512.png"
+                         alt="">
+                    <img class="icon-mail"
+                         src="https://pngriver.com/wp-content/uploads/2017/12/download-Email-symbol-PNG-transparent-images-transparent-backgrounds-PNGRIVER-COM-584856b4e0bb315b0f7675ac.png"
+                         alt="">
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+    <script>
+        document.querySelector("#full-chart-btn").addEventListener("click", (e) => {
+            location.href = `${location.origin}${location.pathname}`;
+        });
+
+        const ll = {{ nl|safe }};
+        const ss = {{ s|safe }};
+        console.log(ss)
+        console.log(ll)
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ll,
+                datasets: [{
+                    label: 'Employees',
+                    data: ss,
+                    {#data: [12, 19, 3, 5, 2, 3],#}
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                onClick: (e, a) => {
+                    console.log(`${location.origin}${location.pathname}?job=${ll[a[0]._index]}`);
+                    location.href = `${location.origin}${location.pathname}?job=${ll[a[0]._index]}`;
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+{% endblock %}
+

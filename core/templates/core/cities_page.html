@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+
+    <h1 class="headline">{{ region }}</h1>
+    <div class="city-list-container">
+    <a href="{% url 'core:home_page' %}">
+        <button class="button button2">Back</button>
+    </a>
+        {% for city in cities %}
+
+
+            <a class="a-city-list" href="{% url 'core:employees_page' city.name %}">
+                <div class="city-list">  {{ city.name }}</div>
+            </a>
+
+
+        {% endfor %}
+    </div>
+
+{% endblock %}

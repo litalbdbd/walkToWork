@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div id="main-page" class="blabla">
+
+        <h1 class="main-title" style="font-family: 'Nunito' ;">WALK TO WORK</h1>
+        <div class="pic-and-p">
+            <p class="describe-of-site">WalkToWork's vision is technological equality for all. Our aim is bridging
+                Israel's growing Startup Nation to
+                Israel's social and geographic periphery. WalkToWork promotes digital equality in Israel by developing
+                and implementing programs in the areas of technology, employment, and life skills.</p>
+
+                <div style="width: 400px;height: 200px;" id="carouselExampleSlidesOnly"
+                     class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <img class="thumbtack" src="https://clipartart.com/images/thumb-tacked-note-clipart-png-7.png"
+                             alt="">
+                        {% for city in cities %}
+                            <div id="img-cont"
+                                 onclick="window.location = '{% url 'core:employees_page' city.name %}'"
+                                 class="carousel-item{% if forloop.first %} active{% endif %}">
+                                <img class="d-block w-100"
+                                     src="{{ city.img.url }}"
+                                     alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h1 style="color: white;text-shadow: 2px 2px 4px #000000;font-size: 40px;">{{ city.name }}</h1>
+                                    <p style="color: white;text-shadow: 2px 2px 4px #000000;font-size: 15px;"><b> You
+                                        have {{ city.get_jobs }} </b></p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+        </div>
+        <div class="buttons">
+            {% for region in regions %}
+                <a href="{% url 'core:cities_page' region.name %}">
+                    <button style="border-radius: 12px;" type=button class="button button2">{{ region.name }}
+                    </button>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="copyright">Contact : litalbdbd@gmail.com</div>
+{% endblock %}
